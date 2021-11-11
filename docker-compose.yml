@@ -1,0 +1,15 @@
+version: '3.1'
+
+services:
+
+  s3-local:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "4569:4569"
+    environment:
+      - "BUCKETS=users-profiles-pics,uploads"
+      - "RESET_ON_CLOSE=0"
+    volumes:
+      - './s3rver-local-data:/tmp/s3rver'
