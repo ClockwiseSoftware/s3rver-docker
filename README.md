@@ -5,7 +5,7 @@ So you can look there at client configuration and usage samples.
 
 To get the latest container version run:
 ```shell
-docker pull ghcr.io/omvmike/s3rver:latest
+docker pull ghcr.io/clockwisesoftware/s3rver:latest
 ```
 
 See docker-compose.yml for run sample.
