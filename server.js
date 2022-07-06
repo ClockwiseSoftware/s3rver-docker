@@ -28,16 +28,18 @@ let configureBuckets = [];
 if (process.env.BUCKETS) {
     configureBuckets =  process.env.BUCKETS.split(',').map(v => ({ name: v }));
 }
-console.log('BUCKETS', configureBuckets);
 
-instance = new S3rver({
+const options = {
     port,
     address,
     silent: false,
     directory: '/tmp/s3rver',
+    ...(process.env.VHOST_BUCKETS !== undefined ? { vhostBuckets: !!process.env.VHOST_BUCKETS } : {}),
     configureBuckets,
     resetOnClose
-}).run((err, { address, port } = {}) => {
+};
+console.log('S3rver config: ',options)
+instance = new S3rver(options).run((err, { address, port } = {}) => {
     if (err) {
         console.error(err);
     } else {
