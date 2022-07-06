@@ -20,10 +20,29 @@ process.on('SIGINT', handle);
 process.on('SIGTERM', handle);
 process.on('SIGHUP', handle);
 
+function stringToBool(str, defaultValue = false){
+    switch(str.toLowerCase().trim()){
+        case "true":
+        case "yes":
+        case "1":
+            return true;
+
+        case "false":
+        case "no":
+        case "0":
+        case null:
+            return false;
+
+        default:
+            return defaultValue
+    }
+}
 
 const port = process.env.PORT || 4569;
 const address = process.env.HOST || 'localhost';
-const resetOnClose = !!process.env.RESET_ON_CLOSE || false;
+const resetOnClose = process.env.RESET_ON_CLOSE !== undefined
+  ? stringToBool(process.env.RESET_ON_CLOSE)
+  : false;
 let configureBuckets = [];
 if (process.env.BUCKETS) {
     configureBuckets =  process.env.BUCKETS.split(',').map(v => ({ name: v }));
@@ -34,7 +53,7 @@ const options = {
     address,
     silent: false,
     directory: '/tmp/s3rver',
-    ...(process.env.VHOST_BUCKETS !== undefined ? { vhostBuckets: !!process.env.VHOST_BUCKETS } : {}),
+    ...(process.env.VHOST_BUCKETS !== undefined ? { vhostBuckets: stringToBool(process.env.VHOST_BUCKETS) } : {}),
     configureBuckets,
     resetOnClose
 };
