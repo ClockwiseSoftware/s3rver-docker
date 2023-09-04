@@ -4,9 +4,10 @@ RUN mkdir /tmp/s3rver
 RUN chown node:node /tmp/s3rver
 
 RUN mkdir /app
+COPY ./package.json /app
 
 # Install Dependencies
-RUN npm install s3rver
+RUN cd /app && npm install --omit=dev
 
 COPY ./server.js /app
 RUN chown -R node:node /app
