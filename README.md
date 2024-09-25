@@ -6,7 +6,7 @@ The aim of this project is to provide a lightweight Docker image for local S3 de
 That's why it's not support all s3rver granular configuration options.
 Usually you need to specify only the list of buckets that will be created on startup and than you can use it for integration or e2e tests.
 
-By default s3rver assumes that it started on `localhost:4569` and all buckets will be created with vhost-style access.
+By default, s3rver assumes that it started on `localhost:4569` and all buckets will be created with vhost-style access.
 So you should assume that for the client configuration. See s3rver documentation for more details.
 
 
@@ -60,4 +60,15 @@ services:
 - `BUCKETS` - comma separated list of buckets that service will create on startup
 - `RESET_ON_CLOSE` - remove all bucket data on server close
 
+## Connection
 
+If your client only supports signed requests, specify the credentials
+
+```javascript
+{
+  accessKeyId: "S3RVER",
+  secretAccessKey: "S3RVER",
+}
+```
+
+in your client's configuration.
